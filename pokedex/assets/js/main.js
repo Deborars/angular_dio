@@ -16,13 +16,18 @@ function convertPokemonToLi(pokemon){
 `
 }
 
-pokeApi.getPokemons().then((pokemonList)=>{
+pokeApi.getPokemons().then((pokemons = [])=>{
 
-  for(let i = 0; i < pokemonList.length; i++){
-    const pokemon = pokemonList[i];
-    // console.log(convertPokemonToLi(pokemon))
-    document.querySelector("#pokemonList").innerHTML += convertPokemonToLi(pokemon);
-}
+  const newList = pokemons.map((pokemon)=>{
+    return convertPokemonToLi(pokemon);
+  })
+
+  //o join pega um array e transforma em uma string por default ele separa por virgula
+//ai foi colocado sem espacos para ficar sem separador nenhum
+  const newHTML = newList.join('');
+
+  document.querySelector("#pokemonList").innerHTML += newHTML;
+
 
 })
 .catch((error)=>console.log(error))

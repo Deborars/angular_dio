@@ -3,6 +3,23 @@
 
 const pokeApi = {}
 
+function convertPokeApiDetailToPokemon(pokeDetail){
+  const pokemon = new Pokemon()
+  pokemon.name = pokeDetail.name;
+  pokemon.number = pokeDetail.order;
+  
+  const types = pokeDetail.types.map((typeSlot) => typeSlot.type.name)
+  //desestruturação array
+  const [type1] = types;
+
+  pokemon.types = types;
+  pokemon.type = type1;
+
+  pokemon.photo = pokeDetail.sprites.other.dream_world.front_default;
+
+  return pokemon;
+}
+
 /*aqui dentro da propriedade do objeto pokeapi
   foi segmentada a parte que realiza o map, pois fica mai legivel
   Estamos mapeando a lista de pokemons em  requisições do detalhe dos pokemons
@@ -11,6 +28,7 @@ const pokeApi = {}
 pokeApi.getPokemonDetail = (pokemon) => {
     return fetch(pokemon.url)
       .then((response) => response.json())
+      .then(convertPokeApiDetailToPokemon)
 }
 
 pokeApi.getPokemons = (offset = 0, limit = 10 ) =>{
